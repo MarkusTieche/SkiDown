@@ -175,7 +175,7 @@ function input(e)
 
     if(!player.onGround){return;};
 
-    if(e.layerX<svg.clientWidth/2)
+    if(e.offsetX<window.innerWidth/2)
     {
         // console.log("left");
         player.column--;
@@ -238,7 +238,6 @@ function render(time)
 
     dt = (time-lastTick)*.06;
     lastTick = time;
-
     if(dt >= 5)
     {
         return;
