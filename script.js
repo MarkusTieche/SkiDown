@@ -7,6 +7,7 @@ var viewBox = svg.viewBox.baseVal;
 
 var score = 0;
 var counter = document.getElementById("counter");
+var best = document.getElementById("best");
 var player = document.getElementById("Player");
     player.body = document.getElementById("body");
     player.onGround = true;
@@ -46,6 +47,7 @@ var tiles = document.getElementById("Tiles");
 var tweenable;
 
 var clickEvent = document.createEvent("MouseEvent");
+var saveGame = {"name":"Savegame","highscore":0};
 
 
 init();
@@ -79,6 +81,12 @@ function init()
         background.children[i].setAttribute("transform","translate("+ background.children[i].position.x+","+ background.children[i].position.y+")");
     }
 
+    //LOAD SAVE
+    localStorage.clear()
+    if(JSON.parse(localStorage.getItem(saveGame.name)))
+    {
+        saveGame = JSON.parse(localStorage.getItem(saveGame.name))
+    }
     //START ANIMATION
     animate();
 }
@@ -216,6 +224,12 @@ function playerDeath()
     player.velocity.y = -10;
     player.angle = 30;
     setTimeout(resetLevel, 1000);
+    if(counter.innerHTML > saveGame.highscore)
+    {
+        saveGame["highscore"] = Number(counter.innerHTML);
+        localStorage.setItem(saveGame.name,JSON.stringify(saveGame));
+        best.innerHTML = "HIGHSCORE: "+counter.innerHTML;
+    }
     counter.innerHTML = "X";
     counter.style.color ="#e85664";
 }
@@ -236,7 +250,7 @@ function bounds(x,y)
 function render(time)
 {
 
-    dt = (time-lastTick)*.06;
+    dt = (time-lastTick)*.06;//!! WRONG IMPLEMENTATION OF DELTATIME
     lastTick = time;
     if(dt >= 5)
     {

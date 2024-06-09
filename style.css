@@ -65,6 +65,12 @@ body,html
     text-align: center;
 }
 
+#best
+{
+    text-align: center;
+    font-size:3vh;
+}
+
 
 svg
 {
